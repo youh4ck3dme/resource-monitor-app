@@ -1,0 +1,43 @@
+name: ResourceMonitor
+options:
+  bundleIdPrefix: com.youh4ck3dme
+  deploymentTarget:
+    iOS: 17.0
+fileGroups:
+  - ResourceMonitor
+  - ResourceMonitorWidget
+targets:
+  ResourceMonitor:
+    type: application
+    platform: iOS
+    sources: [ResourceMonitor]
+    entitlements:
+      path: ResourceMonitor/ResourceMonitor.entitlements
+      properties:
+        com.apple.developer.icloud-container-identifiers: [iCloud.com.resourcemonitor.app]
+        com.apple.developer.icloud-services: [CloudDocuments]
+        com.apple.developer.ubiquity-container-identifiers: [iCloud.com.resourcemonitor.app]
+    info:
+      path: ResourceMonitor/Info.plist
+      properties:
+        UILaunchScreen: {}
+    settings:
+      currentProjectVersion: 1
+      marketingVersion: 1.0.0
+      DEVELOPMENT_TEAM: YOUR_TEAM_ID # User needs to set this
+      PRODUCT_BUNDLE_IDENTIFIER: com.resourcemonitor.app
+      
+  ResourceMonitorWidget:
+    type: app-extension
+    platform: iOS
+    sources: [ResourceMonitorWidget]
+    dependencies:
+      - target: ResourceMonitor
+    info:
+      path: ResourceMonitorWidget/Info.plist
+      properties:
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      DEVELOPMENT_TEAM: YOUR_TEAM_ID
+      PRODUCT_BUNDLE_IDENTIFIER: com.resourcemonitor.app.widget
