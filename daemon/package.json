@@ -1,0 +1,16 @@
+{
+  "name": "resource-monitor-daemon",
+  "version": "1.0.0",
+  "description": "Background daemon for Resource Monitor - syncs stats to iCloud",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "install-daemon": "sudo cp com.resourcemonitor.daemon.plist /Library/LaunchDaemons/ && sudo launchctl load /Library/LaunchDaemons/com.resourcemonitor.daemon.plist",
+    "uninstall-daemon": "sudo launchctl unload /Library/LaunchDaemons/com.resourcemonitor.daemon.plist && sudo rm /Library/LaunchDaemons/com.resourcemonitor.daemon.plist"
+  },
+  "dependencies": {
+    "systeminformation": "^5.30.7"
+  },
+  "type": "module"
+}
