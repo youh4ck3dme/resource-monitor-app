@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Monitor</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <!-- Title Bar -->
+    <div class="title-bar">
+        <h1>System Overview</h1>
+        
+        <!-- View Switcher -->
+        <div class="segmented-control">
+            <input type="radio" name="view" id="view-grid" checked>
+            <label for="view-grid">Grid</label>
+            
+            <input type="radio" name="view" id="view-list">
+            <label for="view-list">List</label>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <!-- Storage Card -->
+        <div class="card">
+            <div class="status-badge">Live</div>
+            <h2>Macintosh HD</h2>
+            <div class="stat-value" id="disk-avail">--</div>
+            <div class="stat-sub">Free of <span id="disk-total">--</span></div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="disk-progress" style="width: 0%;"></div>
+            </div>
+            <div style="margin-top: 10px; font-size: 11px; color: var(--text-secondary); display: flex; justify-content: space-between;">
+                <span>Used Space</span>
+                <span><span id="disk-percent">0</span>%</span>
+            </div>
+        </div>
+
+        <!-- Dev Station -->
+        <div class="card">
+            <h2>Dev Station</h2>
+            <div id="editor-list">
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+            </div>
+        </div>
+
+        <!-- Memory Hogs -->
+        <div class="card">
+            <h2>Memory Hogs</h2>
+            
+            <!-- Global Memory Stats -->
+            <div style="margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; font-weight: 500;">
+                    <span style="color: var(--text-secondary);">RAM Usage</span>
+                    <span id="mem-percent" style="color: var(--text-primary); font-family: 'SF Pro Text', monospace;">--%</span>
+                </div>
+                <div class="progress-container" style="margin: 0 0 8px 0;">
+                    <div class="progress-bar neon-bar neon-safe" id="mem-progress" style="width: 25%;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-tertiary);">
+                    <span>Used: <span id="mem-used">--</span> GB</span>
+                    <span>Total: <span id="mem-total">--</span> GB</span>
+                </div>
+            </div>
+
+            <div id="process-list">
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+            </div>
+        </div>
+
+        <!-- Local Folders - Expanded -->
+        <div class="card card-wide">
+            <h2>📁 Local Folders</h2>
+            
+            <!-- Category Tabs -->
+            <div class="folder-tabs">
+                <button class="folder-tab active" data-category="home">🏠 Home</button>
+                <button class="folder-tab" data-category="nodemodules">📦 node_modules</button>
+                <button class="folder-tab" data-category="caches">🗑️ Caches</button>
+                <button class="folder-tab" data-category="devtools">🛠️ Dev Tools</button>
+                <button class="folder-tab" data-category="cleanup">⚡ Quick Clean</button>
+            </div>
+            
+            <!-- Folder Content -->
+            <div id="folder-content">
+                <!-- Home Folders -->
+                <div id="folder-home" class="folder-category">
+                    <div id="folder-list-home">
+                        <div class="skeleton-item"></div>
+                        <div class="skeleton-item"></div>
+                    </div>
+                </div>
+                
+                <!-- node_modules Scanner -->
+                <div id="folder-nodemodules" class="folder-category" style="display:none;">
+                    <div class="folder-summary nodemodules-summary">
+                        <div>
+                            <span>Found:</span>
+                            <span id="nodemodules-count" class="cache-size">--</span>
+                            <span style="color: var(--text-secondary); margin-left: 8px;">Total:</span>
+                            <span id="nodemodules-total" class="cache-size">--</span>
+                        </div>
+                        <div class="nodemodules-actions">
+                            <button class="scan-btn" id="scan-nodemodules">🔍 Scan</button>
+                            <button class="cleanup-all-btn nodemodules-clean-all" id="clean-all-nodemodules">🗑️ Clean Old</button>
+                        </div>
+                    </div>
+                    <div class="nodemodules-info">
+                        <span>💡 Tip: Removes node_modules not accessed in 14+ days</span>
+                    </div>
+                    <div id="folder-list-nodemodules" class="nodemodules-list">
+                        <div class="skeleton-item"></div>
+                        <div class="skeleton-item"></div>
+                        <div class="scanning-msg" style="display:none;">🔍 Scanning...</div>
+                    </div>
+                </div>
+                
+                <!-- Caches -->
+                <div id="folder-caches" class="folder-category" style="display:none;">
+                    <div class="folder-summary">
+                        <span>Total Cache Size:</span>
+                        <span id="cache-total-size" class="cache-size">--</span>
+                    </div>
+                    <div id="folder-list-caches">
+                        <div class="skeleton-item"></div>
+                        <div class="skeleton-item"></div>
+                    </div>
+                </div>
+                
+                <!-- Dev Tools -->
+                <div id="folder-devtools" class="folder-category" style="display:none;">
+                    <div id="folder-list-devtools">
+                        <div class="skeleton-item"></div>
+                        <div class="skeleton-item"></div>
+                    </div>
+                </div>
+                
+                <!-- Quick Cleanup -->
+                <div id="folder-cleanup" class="folder-category" style="display:none;">
+                    <div class="cleanup-section">
+                        <div class="cleanup-item">
+                            <div class="cleanup-info">
+                                <span class="cleanup-name">🧹 VS Code Cache</span>
+                                <span class="cleanup-size" id="cleanup-vscode">--</span>
+                            </div>
+                            <button class="cleanup-btn" data-action="vscode-cache">Clean</button>
+                        </div>
+                        <div class="cleanup-item">
+                            <div class="cleanup-info">
+                                <span class="cleanup-name">📦 pnpm/npm Cache</span>
+                                <span class="cleanup-size" id="cleanup-npm">--</span>
+                            </div>
+                            <button class="cleanup-btn" data-action="npm-cache">Clean</button>
+                        </div>
+                        <div class="cleanup-item">
+                            <div class="cleanup-info">
+                                <span class="cleanup-name">🍺 Homebrew Cache</span>
+                                <span class="cleanup-size" id="cleanup-homebrew">--</span>
+                            </div>
+                            <button class="cleanup-btn" data-action="homebrew-cache">Clean</button>
+                        </div>
+                        <div class="cleanup-item">
+                            <div class="cleanup-info">
+                                <span class="cleanup-name">🎭 Playwright Browsers</span>
+                                <span class="cleanup-size" id="cleanup-playwright">--</span>
+                            </div>
+                            <button class="cleanup-btn" data-action="playwright-cache">Clean</button>
+                        </div>
+                        <div class="cleanup-item">
+                            <div class="cleanup-info">
+                                <span class="cleanup-name">⚡ Electron Cache</span>
+                                <span class="cleanup-size" id="cleanup-electron">--</span>
+                            </div>
+                            <button class="cleanup-btn" data-action="electron-cache">Clean</button>
+                        </div>
+                    </div>
+                    <button class="cleanup-all-btn" id="cleanup-all">🚀 Clean All Caches</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="timestamp">Updated at <span id="timestamp">--:--:--</span></div>
+    <script src="renderer.js" defer></script>
+</body>
+</html>
