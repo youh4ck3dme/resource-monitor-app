@@ -1,84 +1,46 @@
-# 🖥️ Resource Monitor App
+# Resource Monitor App
 
-A beautiful, macOS-native resource monitoring application built with Electron. Features real-time system stats, neon animations, and a fully responsive UI.
+## Features
+- Real-time monitoring of system resources (CPU, Memory, Disk usage).
+- Alerts for high resource usage.
+- Visual representation of resource usage through graphs.
+- User-friendly interface.
 
-![macOS](https://img.shields.io/badge/macOS-000000?style=flat&logo=apple&logoColor=white)
-![Electron](https://img.shields.io/badge/Electron-47848F?style=flat&logo=electron&logoColor=white)
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/youh4ck3dme/resource-monitor-app.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd resource-monitor-app
+   ```
+3. Install the required dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the application:
+   ```bash
+   npm start
+   ```
 
-## ✨ Features
+## Usage
+- After starting the application, access it via your web browser at `http://localhost:3000`.
+- Monitor your system resources in real-time.
+- Configure alert preferences in the settings menu.
 
-### 📊 Real-Time Monitoring
-- **Disk Usage** - Available space, total capacity, usage percentage
-- **RAM Usage** - Active memory with dynamic neon progress bar
-- **Top Processes** - Memory hogs sorted by consumption
-- **Large Folders** - Biggest directories in your home folder
-- **Dev Station** - Track running editors (VS Code, Cursor, Antigravity)
+## Troubleshooting Guide
+- **Issue: Application not starting.**  
+  **Solution:** Ensure all dependencies are installed, and check for errors in the terminal. 
+- **Issue: High CPU usage reported incorrectly.**  
+  **Solution:** Try restarting the application. If the problem persists, check for updates or report an issue on GitHub.
+- **Issue: Graphs not rendering.**  
+  **Solution:** Check your internet connection, as the app may rely on online resources for visualization.
 
-### 🎨 Premium UI/UX
-- **macOS Native Look** - Vibrancy effects, SF Pro typography
-- **Neon Progress Bars** - Color shifts based on utilization:
-  - 🔵 **0-50%** - Ocean Blue (Safe)
-  - 🟣 **50-80%** - Purple (Warning)
-  - 🔴 **80-100%** - Red with pulse (Critical)
-- **View Modes** - Toggle between Grid and List layouts
-- **100% Responsive** - Adapts from mobile (400px) to ultra-wide (2K+)
+## Contributing
+Feel free to submit issues or pull requests for enhancements or bug fixes.  
+Mention the relevant issue number if applicable.
 
-### ⚡ Micro-Animations
-- Shimmer effect on progress bars
-- Pulse animation on critical levels
-- Smooth transitions on all interactions
-- Respects `prefers-reduced-motion`
-
-## 🚀 Quick Start
-
-```bash
-# Install dependencies
-npm install
-
-# Run the app
-npm start
-```
-
-## 🧪 Testing
-
-```bash
-# Run UI/UX test suite
-npx electron ui_ux_test.js
-
-# Run stress test (allocates memory, creates large file)
-node stress_test.js
-```
-
-## 📁 Project Structure
-
-```
-resource-monitor-app/
-├── main.js          # Electron main process
-├── renderer.js      # Frontend logic & data binding
-├── index.html       # UI structure
-├── styles.css       # All styles + animations + responsive
-├── stress_test.js   # Memory/disk stress simulation
-├── ui_ux_test.js    # Automated UI/UX test suite
-└── package.json     # Dependencies
-```
-
-## 🎛️ Responsive Breakpoints
-
-| Breakpoint | Device | Layout |
-|------------|--------|--------|
-| 1600px+ | Ultra-wide | 4 columns |
-| 1200-1599px | Desktop | 2 columns |
-| 800-1199px | Small Desktop | 2 columns (compact) |
-| 600-799px | Tablet | 1 column |
-| <600px | Mobile | 1 column (scrollable) |
-
-## 🔧 Tech Stack
-
-- **Electron 40** - Cross-platform desktop framework
-- **systeminformation** - System stats library
-- **Vanilla CSS** - No frameworks, pure performance
-- **AppleScript** - Window title detection for editors
-
-## 📝 License
-
-ISC
+## License
+This project is licensed under the MIT License.  
+See the [LICENSE](LICENSE) file for more information.
